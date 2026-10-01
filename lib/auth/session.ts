@@ -4,7 +4,7 @@ import { and, eq, gt, lt } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
-import { db, schema } from "../db";
+import { db, isDatabaseConfigured, schema } from "../db";
 
 const COOKIE = "ph_admin_session";
 const SESSION_DAYS = 7;
@@ -30,6 +30,7 @@ export async function createSession(userId: string) {
 
 /** Returns the signed-in admin or null. Memoised per request. */
 export const getAdmin = cache(async () => {
+  if (!isDatabaseConfigured) return null;
   const jar = await cookies();
   const token = jar.get(COOKIE)?.value;
   if (!token) return null;

@@ -24,5 +24,9 @@ export async function readJsonBody(req: Request, maxBytes = 16_000) {
   }
 }
 
+/** Frontend-only deployments have no database: say so honestly instead of "try again". */
+export const notConfigured = (what: string) =>
+  json({ error: `Online ${what} aren't available yet. Please check back soon.` }, 503);
+
 /** Submissions completed faster than a person could type are treated as bots. */
 export const MIN_HUMAN_MS = 2500;

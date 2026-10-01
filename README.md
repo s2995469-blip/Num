@@ -66,6 +66,12 @@ No secrets reach the browser; only `NEXT_PUBLIC_SITE_URL` is public.
 
 ## Deployment
 
+### Frontend only (no database)
+
+The site builds and runs with **no environment variables at all**. On Vercel: framework preset *Next.js*, build command `npm run build`, output directory left empty. Every page, the 3D hero and the journal work normally. Until `DATABASE_URL` is added, the booking and contact forms answer "Online enquiries aren't available yet" (HTTP 503) and `/admin` explains that it isn't set up. Add the database later and redeploy to switch them on.
+
+### Full deployment
+
 Any Node host that runs `next start` will work (Vercel, Render, Fly.io, a VPS), with a managed PostgreSQL database.
 
 1. Provision Postgres and set the environment variables above.

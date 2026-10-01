@@ -3,6 +3,9 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import * as schema from "./schema";
 
+/** False when the site is deployed as a frontend only (no DATABASE_URL). */
+export const isDatabaseConfigured = Boolean(process.env.DATABASE_URL);
+
 declare global {
   var __phPool: Pool | undefined;
 }

@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { verifyPassword } from "@/lib/auth/password";
 import { createSession, destroySession, requireAdmin } from "@/lib/auth/session";
-import { db, schema } from "@/lib/db";
+import { db, isDatabaseConfigured, schema } from "@/lib/db";
 import { clientKey, rateLimit } from "@/lib/rate-limit";
 
 export type LoginState = { error?: string; email?: string };
@@ -21,6 +21,10 @@ export async function login(_prev: LoginState, formData: FormData): Promise<Logi
   const password = String(formData.get("password") ?? "");
   if (!email || !password || email.length > 254 || password.length > 512) {
     return { error: "Please enter your email and password.", email };
+  }
+
+  if (!isDatabaseConfigured) {
+    return { error: "The admin area isn't set up yet: no database is configured (see README).", email };
   }
 
   const h = await headers();

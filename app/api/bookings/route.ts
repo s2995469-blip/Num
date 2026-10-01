@@ -1,10 +1,12 @@
 import { createBooking } from "@/lib/bookings";
-import { json, MIN_HUMAN_MS, readJsonBody } from "@/lib/http";
+import { isDatabaseConfigured } from "@/lib/db";
+import { json, MIN_HUMAN_MS, notConfigured, readJsonBody } from "@/lib/http";
 import { notifyNewBooking } from "@/lib/notifications";
 import { clientKey, rateLimit } from "@/lib/rate-limit";
 import { bookingSchema, fieldErrors } from "@/lib/validation/booking";
 
 export async function POST(req: Request) {
+  if (!isDatabaseConfigured) return notConfigured("enquiries");
   const limited = rateLimit(clientKey(req.headers, "booking"), 5, 10 * 60 * 1000);
   if (!limited.ok) {
     return json(

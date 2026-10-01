@@ -1,11 +1,12 @@
 import { eq } from "drizzle-orm";
-import { db, schema } from "@/lib/db";
-import { json, MIN_HUMAN_MS, readJsonBody } from "@/lib/http";
+import { db, isDatabaseConfigured, schema } from "@/lib/db";
+import { json, MIN_HUMAN_MS, notConfigured, readJsonBody } from "@/lib/http";
 import { notifyNewContact } from "@/lib/notifications";
 import { clientKey, rateLimit } from "@/lib/rate-limit";
 import { contactSchema, fieldErrors } from "@/lib/validation/booking";
 
 export async function POST(req: Request) {
+  if (!isDatabaseConfigured) return notConfigured("messages");
   const limited = rateLimit(clientKey(req.headers, "contact"), 5, 10 * 60 * 1000);
   if (!limited.ok) {
     return json({ error: "Too many messages in a short time. Please try again shortly." }, 429, {
