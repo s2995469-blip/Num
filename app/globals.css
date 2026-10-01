@@ -1,0 +1,446 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Powerhouse Numerology — design tokens
+   Palette ratio: ~65% warm light surfaces, ~25% charcoal / espresso,
+   ~10% antique-brass accents (used as material, never as flat yellow).
+   ------------------------------------------------------------------ */
+:root {
+  --porcelain: #f7f4ed;
+  --ivory: #eee8dd;
+  --sandstone: #d8c7ac;
+  --brass: #b4935a;
+  --champagne: #dcc18b;
+  --charcoal: #252722;
+  --espresso: #181714;
+  --taupe: #8d8376;
+  --lavender: #e8e5ed;
+
+  /* Derived, contrast-checked text tones */
+  --ink: #1f1e1a; /* body on porcelain: 15.2:1 */
+  --ink-soft: #57524a; /* secondary: 7.0:1 porcelain, 4.7:1 sandstone */
+  --brass-deep: #7d6234; /* brass text: 5.2:1 porcelain, 4.7:1 ivory */
+  --on-dark: #f2ede3;
+  --on-dark-soft: #bfb6a8; /* 7.5:1 charcoal, 8.9:1 espresso */
+  --line-light: rgba(31, 30, 26, 0.14);
+  --line-dark: rgba(242, 237, 227, 0.14);
+
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --section-y: clamp(5rem, 11vw, 10rem);
+  --max: 88rem;
+  --header-h: 5.5rem;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@theme inline {
+  --color-porcelain: var(--porcelain);
+  --color-ivory: var(--ivory);
+  --color-sandstone: var(--sandstone);
+  --color-brass: var(--brass);
+  --color-brass-deep: var(--brass-deep);
+  --color-champagne: var(--champagne);
+  --color-charcoal: var(--charcoal);
+  --color-espresso: var(--espresso);
+  --color-taupe: var(--taupe);
+  --color-lavender: var(--lavender);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-on-dark: var(--on-dark);
+  --color-on-dark-soft: var(--on-dark-soft);
+  --color-line-light: var(--line-light);
+  --color-line-dark: var(--line-dark);
+
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-manrope), "Manrope", system-ui, sans-serif;
+
+  --ease-out-soft: var(--ease-out);
+}
+
+/* ------------------------------------------------------------------ */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-h);
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+body {
+  background: var(--porcelain);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--champagne);
+  color: var(--espresso);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.on-dark :focus-visible {
+  outline-color: var(--champagne);
+}
+
+/* ---------- Typography ---------- */
+
+.font-display {
+  font-family: var(--font-display);
+  font-feature-settings: "liga", "dlig", "onum";
+}
+
+.display-xl {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.9rem, 6.4vw, 6.6rem);
+  line-height: 0.94;
+  letter-spacing: -0.02em;
+}
+
+.display-lg {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.5rem, 5.6vw, 5rem);
+  line-height: 1;
+  letter-spacing: -0.015em;
+}
+
+.display-md {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2rem, 3.6vw, 3.25rem);
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+}
+
+.display-sm {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.55rem, 2.2vw, 2rem);
+  line-height: 1.15;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.lede {
+  font-size: clamp(1.1rem, 1.35vw, 1.3rem);
+  line-height: 1.6;
+}
+
+/* Long-form article body */
+.prose-editorial {
+  max-width: 40rem;
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--ink);
+}
+.prose-editorial > * + * {
+  margin-top: 1.4em;
+}
+.prose-editorial h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.8rem, 2.6vw, 2.35rem);
+  line-height: 1.15;
+  margin-top: 2.4em;
+}
+.prose-editorial h3 {
+  font-weight: 600;
+  font-size: 1.15rem;
+  margin-top: 2em;
+}
+.prose-editorial ul {
+  list-style: none;
+  padding: 0;
+}
+.prose-editorial ul li {
+  position: relative;
+  padding-left: 1.6em;
+}
+.prose-editorial ul li + li {
+  margin-top: 0.6em;
+}
+.prose-editorial ul li::before {
+  content: "";
+  position: absolute;
+  left: 0.2em;
+  top: 0.8em;
+  width: 0.7em;
+  height: 1px;
+  background: var(--brass);
+}
+.prose-editorial blockquote {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  line-height: 1.35;
+  border-left: 1px solid var(--brass);
+  padding-left: 1.4rem;
+  color: var(--ink-soft);
+}
+.prose-editorial a {
+  color: var(--brass-deep);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+
+/* ---------- Layout ---------- */
+
+.container-x {
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section-y {
+  padding-block: var(--section-y);
+}
+
+.hairline {
+  height: 1px;
+  background: currentColor;
+  opacity: 0.16;
+}
+
+/* Arch silhouette taken from the logo: straight sides, semicircular head */
+.arch-mask {
+  border-radius: 999px 999px 0 0;
+}
+
+/* ---------- Buttons & links ---------- */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 3.25rem;
+  padding: 0 1.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 999px;
+  transition:
+    background-color 0.4s var(--ease-out),
+    color 0.4s var(--ease-out),
+    border-color 0.4s var(--ease-out),
+    transform 0.4s var(--ease-out);
+  white-space: nowrap;
+}
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* Primary: espresso fill with a brass hairline — gold as a material edge */
+.btn-primary {
+  background: var(--espresso);
+  color: var(--porcelain);
+  box-shadow: inset 0 0 0 1px rgba(220, 193, 139, 0.45);
+}
+.btn-primary:hover {
+  background: var(--charcoal);
+  box-shadow: inset 0 0 0 1px var(--champagne);
+}
+
+/* Light primary for dark grounds */
+.btn-light {
+  background: var(--porcelain);
+  color: var(--espresso);
+}
+.btn-light:hover {
+  background: var(--champagne);
+}
+
+.btn-ghost {
+  color: inherit;
+  box-shadow: inset 0 0 0 1px currentColor;
+}
+.btn-ghost:hover {
+  background: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.btn .btn-arrow {
+  transition: transform 0.5s var(--ease-out);
+}
+.btn:hover .btn-arrow,
+.link-arrow:hover .btn-arrow,
+.group:hover .btn-arrow,
+.group:focus-visible .btn-arrow {
+  transform: translateX(4px);
+}
+
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.5s var(--ease-out);
+}
+.link-underline:hover,
+.link-underline:focus-visible,
+.link-underline[aria-current="page"] {
+  background-size: 100% 1px;
+}
+
+/* ---------- Form controls ---------- */
+
+.field-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--ink);
+}
+.field-hint {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+.field-input {
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.85rem 1rem;
+  background: #fffdf8;
+  border: 1px solid rgba(31, 30, 26, 0.22);
+  border-radius: 0.5rem;
+  color: var(--ink);
+  font-size: 1rem;
+  transition:
+    border-color 0.3s var(--ease-out),
+    box-shadow 0.3s var(--ease-out);
+}
+.field-input:hover {
+  border-color: rgba(31, 30, 26, 0.4);
+}
+.field-input:focus {
+  outline: none;
+  border-color: var(--brass);
+  box-shadow: 0 0 0 3px rgba(180, 147, 90, 0.25);
+}
+.field-input[aria-invalid="true"] {
+  border-color: #9b3b2e;
+}
+.field-error {
+  margin-top: 0.45rem;
+  font-size: 0.875rem;
+  color: #9b3b2e;
+}
+select.field-input {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231f1e1a' stroke-width='1.4' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+/* ---------- Motion helpers ---------- */
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.hero-rise {
+  animation: hero-rise 1.2s var(--ease-out) both;
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  45% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+.scroll-cue-line {
+  animation: scroll-cue 2.6s var(--ease-in-out) infinite;
+}
+
+@keyframes slow-breathe {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+.slow-breathe {
+  animation: slow-breathe 9s var(--ease-in-out) infinite;
+}
+
+@keyframes slow-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.slow-spin {
+  animation: slow-spin 90s linear infinite;
+}
+
+/* Fine film grain over dark cinematic surfaces (pure CSS, no asset) */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.sr-only-focusable:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
